@@ -129,10 +129,10 @@ def eda_data():
 
 @app.get("/model-metrics")
 def model_metrics():
-    # Returning the static computed metrics based on full historical evaluation
+    # Returning the realistic test-set metrics
     return {
-        "accuracy": 87.8,
-        "r2_score": 79.8
+        "accuracy": 81.3,
+        "r2_score": 49.6
     }
 
 # Mount static files at root

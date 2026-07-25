@@ -40,10 +40,10 @@ graph TD;
 ```
 
 ### 📈 Model Performance
-*   **Commercial Viability (Hit/Flop):** **87.8% Accuracy**
-*   **Revenue Forecasting:** **79.8% R-Squared ($R^2$)** 
+*   **Commercial Viability (Hit/Flop):** **81.3% Accuracy** *(vs 75% baseline)*
+*   **Revenue Forecasting:** **49.6% R-Squared ($R^2$)** 
 
-*The models confidently explain nearly 80% of the variance in global box office returns—an incredibly high metric given the unpredictable nature of the entertainment industry.*
+*The model intelligently explains nearly 50% of the variance in global box office returns—an incredibly respectable metric given the highly volatile and unpredictable nature of the entertainment industry!*
 
 ## 💻 Tech Stack
 
