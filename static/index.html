@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinePredict - AI Box Office Forecaster</title>
+    <meta name="description" content="Predict movie success and revenue with AI">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Animated Particle Background -->
+    <div id="particles-js"></div>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+    
+    <header>
+        <div class="logo">
+            <h1>Cine<span>Predict</span></h1>
+        </div>
+        <nav>
+            <a href="#predictor" class="active">Predictor</a>
+            <a href="#metrics">Model Engine</a>
+            <a href="#dashboard">Market Insights</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Predictor Section -->
+        <section id="predictor" class="glass-panel" data-tilt data-tilt-max="2" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.1">
+            <div class="panel-header">
+                <h2>Movie Forecaster <span class="badge">AI Powered</span></h2>
+                <p>Input cinematic parameters to simulate box office trajectory.</p>
+            </div>
+            
+            <form id="prediction-form" class="floating-form">
+                <div class="input-grid">
+                    <div class="floating-group">
+                        <input type="number" id="budget" name="budget" required placeholder=" " min="0">
+                        <label for="budget">Production Budget ($)</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="number" id="runtime" name="runtime" required placeholder=" " min="0">
+                        <label for="runtime">Runtime (mins)</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="number" id="vote_average" name="vote_average" required placeholder=" " step="0.1" min="0" max="10">
+                        <label for="vote_average">Expected Rating (0-10)</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="number" id="vote_count" name="vote_count" required placeholder=" " min="0">
+                        <label for="vote_count">Projected Vote Count</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="number" id="popularity" name="popularity" required placeholder=" " min="0">
+                        <label for="popularity">Pre-release Popularity Score</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="number" id="cast_size" name="cast_size" required placeholder=" " min="1">
+                        <label for="cast_size">Key Cast Size</label>
+                    </div>
+                    <div class="floating-group">
+                        <input type="number" id="num_genres" name="num_genres" required placeholder=" " min="1">
+                        <label for="num_genres">Total Number of Genres</label>
+                    </div>
+                    <div class="floating-group">
+                        <select id="genre" name="genre" required>
+                            <option value="" disabled selected></option>
+                            <option value="Action">Action</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Animation">Animation</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Crime">Crime</option>
+                            <option value="Documentary">Documentary</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Family">Family</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Foreign">Foreign</option>
+                            <option value="History">History</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Music">Music</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Science Fiction">Science Fiction</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="War">War</option>
+                            <option value="Western">Western</option>
+                        </select>
+                        <label for="genre">Primary Genre</label>
+                    </div>
+                </div>
+                <button type="submit" class="primary-btn glow-effect">
+                    <span class="btn-text">Run Simulation</span>
+                    <div class="spinner hidden"></div>
+                </button>
+            </form>
+
+            <div id="results" class="results-container hidden">
+                <h3>Prediction Results</h3>
+                <div class="results-grid">
+                    <div class="result-card" data-tilt data-tilt-scale="1.05">
+                        <div class="card-icon">💵</div>
+                        <h4>Predicted Revenue</h4>
+                        <div id="revenue-result" class="result-value gradient-text">--</div>
+                    </div>
+                    <div class="result-card" data-tilt data-tilt-scale="1.05">
+                        <div class="card-icon">🍿</div>
+                        <h4>Commercial Verdict</h4>
+                        <div id="verdict-result" class="result-value">--</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Model Performance Metrics Section -->
+        <section id="metrics" class="glass-panel metrics-panel" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.1">
+            <div class="panel-header">
+                <h2>AI Engine Diagnostics</h2>
+                <p>Real-time performance metrics of the underlying machine learning models against historical box-office data.</p>
+            </div>
+            
+            <div class="gauges-container">
+                <!-- Accuracy Gauge -->
+                <div class="gauge-card">
+                    <div class="circular-progress" id="accuracy-gauge">
+                        <div class="inner-circle"></div>
+                        <p class="percentage" id="accuracy-text">0%</p>
+                    </div>
+                    <div class="gauge-info">
+                        <h3>Hit/Flop Accuracy</h3>
+                        <p>Classification Confidence</p>
+                    </div>
+                </div>
+
+                <!-- R-Squared Gauge -->
+                <div class="gauge-card">
+                    <div class="circular-progress" id="r2-gauge">
+                        <div class="inner-circle"></div>
+                        <p class="percentage" id="r2-text">0%</p>
+                    </div>
+                    <div class="gauge-info">
+                        <h3>Revenue R-Squared</h3>
+                        <p>Variance Explained</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Insights Section -->
+        <section id="dashboard" class="glass-panel" data-tilt data-tilt-max="1" data-tilt-glare="true" data-tilt-max-glare="0.05">
+            <div class="panel-header">
+                <h2>Market Insights</h2>
+                <p>Exploratory Data Analysis of Historical Box Office Data</p>
+            </div>
+            
+            <div class="charts-grid">
+                <div class="chart-container custom-scrollbar">
+                    <h3>Average Revenue by Genre</h3>
+                    <canvas id="revenueGenreChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Genre Popularity Distribution</h3>
+                    <canvas id="genreCountChart"></canvas>
+                </div>
+                <div class="chart-container full-width">
+                    <h3>Budget vs Revenue Correlation</h3>
+                    <canvas id="budgetRevenueChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
